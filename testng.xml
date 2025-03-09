@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="DuzceGuven Test Suite">
+    <test name="Login Tests">
+        <classes>
+            <class name="com.duzceguven.tests.LoginTest"/>
+        </classes>
+    </test>
+    <test name="Search Tests">
+        <classes>
+            <class name="com.duzceguven.tests.DuzceGuvenSearchTest"/>
+        </classes>
+    </test>
+</suite>
