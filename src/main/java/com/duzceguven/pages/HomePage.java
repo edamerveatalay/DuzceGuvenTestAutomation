@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
  */
 public class HomePage extends BasePage {
     
-    // Locators
     private final By searchBox = By.id("searchBox");
     private final By searchButton = By.id("searchButton");
     private final By loginLink = By.linkText("Giriş");
@@ -76,7 +75,7 @@ public class HomePage extends BasePage {
      * @return HomePage instance
      */
     public HomePage clickMenuItem(String menuText) {
-        clickElement(By.xpath("//div[contains(@class, 'menu-item') and contains(text(), '" + menuText + "')]"));
+        clickElement(By.xpath("
         return this;
     }
 }

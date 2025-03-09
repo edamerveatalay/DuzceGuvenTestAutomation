@@ -29,16 +29,12 @@ public class DatePickerTest extends BaseTest {
     @Description("Test verifies that a user can select a specific date from the calendar")
     @Severity(SeverityLevel.CRITICAL)
     public void testDatePicker() {
-        // Navigate to the website
-        driver.get("https://www.duzceguven.com.tr");
+        driver.get("https:
         
-        // Handle cookie consent if present
         handleCookieConsent();
         
-        // Wait for page to load fully
         sleep(3000);
         
-        // Select a date
         selectDateFromCalendar(19);
     }
     
@@ -46,7 +42,7 @@ public class DatePickerTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Kabul Et')]")));
+                    By.xpath("
             cookieButton.click();
             System.out.println("Closed cookie consent popup");
         } catch (Exception e) {
@@ -57,35 +53,27 @@ public class DatePickerTest extends BaseTest {
     @Step("Select date {day} from calendar")
     private void selectDateFromCalendar(int day) {
         try {
-            // First, directly locate and click the date field
             System.out.println("Attempting to click on date field");
-            WebElement dateField = driver.findElement(By.xpath("//input[contains(@placeholder, '/')]"));
+            WebElement dateField = driver.findElement(By.xpath("
             
-            // Create a screenshot before clicking
             takeScreenshot("before_date_click");
             
-            // Click on the date field to open the date picker using JavaScript
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", dateField);
             System.out.println("Clicked on date field using JavaScript");
             
-            // Wait for the calendar to appear
             sleep(2000);
             
-            // Take a screenshot to see the calendar
             takeScreenshot("calendar_opened");
             
-            // Locate the date picker container
-            WebElement datePickerContainer = driver.findElement(By.xpath("//div[contains(@class, 'datepicker-days')]"));
+            WebElement datePickerContainer = driver.findElement(By.xpath("
             
             if (datePickerContainer != null) {
                 System.out.println("Date picker container found");
                 
-                // Try to find all day elements in the table
-                List<WebElement> dayElements = datePickerContainer.findElements(By.xpath(".//td[@class='day']"));
+                List<WebElement> dayElements = datePickerContainer.findElements(By.xpath(".
                 System.out.println("Found " + dayElements.size() + " day elements");
                 
-                // Find the specific day we want by its text
                 WebElement dayToSelect = null;
                 for (WebElement dayElement : dayElements) {
                     System.out.println("Day element text: " + dayElement.getText());
@@ -98,20 +86,16 @@ public class DatePickerTest extends BaseTest {
                 if (dayToSelect != null) {
                     System.out.println("Found day element for day " + day);
                     
-                    // Take screenshot before clicking the day
                     takeScreenshot("before_day_click");
                     
-                    // Click the day using JavaScript
                     executor.executeScript("arguments[0].click();", dayToSelect);
                     System.out.println("Successfully clicked day " + day + " with JavaScript");
                     
-                    // Take screenshot after clicking the day
                     sleep(1000);
                     takeScreenshot("after_day_click");
                 } else {
                     System.out.println("Could not find the day element for day " + day);
                     
-                    // Try another approach - click by pure JavaScript
                     String jsScript = 
                         "var days = document.querySelectorAll('.datepicker-days td.day');" +
                         "for (var i=0; i < days.length; i++) {" +
@@ -136,7 +120,6 @@ public class DatePickerTest extends BaseTest {
     
     private void takeScreenshot(String name) {
         try {
-            // This would normally save a screenshot but we'll just log it
             System.out.println("Taking screenshot: " + name);
         } catch (Exception e) {
             System.out.println("Could not take screenshot: " + e.getMessage());

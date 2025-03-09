@@ -21,16 +21,13 @@ public class DatePickerUtil {
      */
     public static boolean selectDate(WebDriver driver, int day) {
         try {
-            // Step 1: Click on the date field to open the calendar
             if (!clickDateField(driver)) {
                 System.out.println("Failed to click on date field");
                 return false;
             }
             
-            // Allow time for the calendar to appear
             sleep(1500);
             
-            // Step 2: Try to select the specific day from the calendar
             return selectDayFromCalendar(driver, day);
         } catch (Exception e) {
             System.out.println("Error in selectDate: " + e.getMessage());
@@ -49,7 +46,6 @@ public class DatePickerUtil {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Strategy 1: Find by calendar icon (most reliable based on testing)
             Boolean foundByIcon = (Boolean) js.executeScript(
                 "var icons = document.querySelectorAll('i.fa-calendar, i.fa-calendar-alt, span.calendar-icon');" +
                 "if(icons.length > 0) {" +
@@ -76,7 +72,6 @@ public class DatePickerUtil {
                 return true;
             }
             
-            // Strategy 2: Find by placeholder
             Boolean foundByPlaceholder = (Boolean) js.executeScript(
                 "var inputs = document.getElementsByTagName('input');" +
                 "for(var i=0; i<inputs.length; i++) {" +
@@ -92,7 +87,6 @@ public class DatePickerUtil {
                 return true;
             }
             
-            // Strategy 3: Try third input field (based on form structure)
             Boolean foundByPosition = (Boolean) js.executeScript(
                 "var inputs = document.getElementsByTagName('input');" +
                 "if(inputs.length >= 3) {" +
@@ -126,7 +120,6 @@ public class DatePickerUtil {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Strategy 1: Try to find and click the day cell
             Boolean selectedByJS = (Boolean) js.executeScript(
                 "var dayElements = document.querySelectorAll('.datepicker-days td.day, .datepicker td.day, td.day');" +
                 "for(var i=0; i<dayElements.length; i++) {" +
@@ -142,7 +135,6 @@ public class DatePickerUtil {
                 return true;
             }
             
-            // Strategy 2: Set the date value directly using JavaScript
             LocalDate now = LocalDate.now();
             LocalDate date = LocalDate.of(now.getYear(), now.getMonth(), day);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -153,7 +145,7 @@ public class DatePickerUtil {
                 "for(var i=0; i<inputs.length; i++) {" +
                 "  if(inputs[i].placeholder && inputs[i].placeholder.indexOf('/') > -1 || " +
                 "     inputs[i].className.indexOf('datepicker') > -1 || " +
-                "     i === 2) {" +  // Third input based on form structure
+                "     i === 2) {" +
                 "    inputs[i].value = '" + formattedDate + "';" +
                 "    var event = new Event('change', { 'bubbles': true });" +
                 "    inputs[i].dispatchEvent(event);" +

@@ -31,17 +31,13 @@ public class EnhancedCalendarTest extends BaseTest {
     @Description("Test uses multiple strategies to find and interact with the date picker")
     @Severity(SeverityLevel.CRITICAL)
     public void testEnhancedDateSelection() {
-        // Navigate to the website
-        driver.get("https://www.duzceguven.com.tr");
+        driver.get("https:
         logInfo("Navigated to website");
         
-        // Handle cookie consent if present
         handleCookieConsent();
         
-        // Wait for page to load completely
         sleep(3000);
         
-        // Use enhanced methods to find and interact with date picker
         if (clickOnDateField()) {
             logInfo("Successfully clicked on date field");
             if (selectDateFromCalendar(19)) {
@@ -58,7 +54,7 @@ public class EnhancedCalendarTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Kabul Et')]")));
+                    By.xpath("
             cookieButton.click();
             logInfo("Closed cookie consent popup");
         } catch (Exception e) {
@@ -69,10 +65,8 @@ public class EnhancedCalendarTest extends BaseTest {
     @Step("Click on date field")
     private boolean clickOnDateField() {
         try {
-            // Try to identify the date input field using JavaScript
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Strategy 1: Find by placeholder
             logInfo("Attempting to find date field by placeholder");
             Boolean foundByPlaceholder = (Boolean) js.executeScript(
                 "var inputs = document.getElementsByTagName('input');" +
@@ -90,7 +84,6 @@ public class EnhancedCalendarTest extends BaseTest {
                 return true;
             }
             
-            // Strategy 2: Look for inputs with datepicker class or attribute
             logInfo("Attempting to find date field by datepicker class");
             Boolean foundByClass = (Boolean) js.executeScript(
                 "var inputs = document.getElementsByTagName('input');" +
@@ -109,7 +102,6 @@ public class EnhancedCalendarTest extends BaseTest {
                 return true;
             }
             
-            // Strategy 3: Look for the calendar icon and click its parent or adjacent element
             logInfo("Attempting to find date field by calendar icon");
             Boolean foundByIcon = (Boolean) js.executeScript(
                 "var icons = document.querySelectorAll('i.fa-calendar, i.fa-calendar-alt, span.calendar-icon');" +
@@ -138,7 +130,6 @@ public class EnhancedCalendarTest extends BaseTest {
                 return true;
             }
             
-            // Strategy 4: Try third input field (based on form structure from screenshot)
             logInfo("Attempting to find date field by position");
             Boolean foundByPosition = (Boolean) js.executeScript(
                 "var inputs = document.getElementsByTagName('input');" +
@@ -154,9 +145,7 @@ public class EnhancedCalendarTest extends BaseTest {
                 return true;
             }
             
-            // If all JavaScript strategies fail, try Selenium methods
             try {
-                // Try to find any input field that might be the date picker
                 List<WebElement> inputs = driver.findElements(By.tagName("input"));
                 if (inputs.size() >= 3) {
                     Actions actions = new Actions(driver);
@@ -182,15 +171,12 @@ public class EnhancedCalendarTest extends BaseTest {
     @Step("Select date {day} from calendar")
     private boolean selectDateFromCalendar(int day) {
         try {
-            // Wait for the date picker to appear
             sleep(1500);
             
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Try to find the date picker container
             logInfo("Looking for date picker container");
             
-            // Strategy 1: JavaScript to find and click on the day
             logInfo("Attempting to select day " + day + " using JavaScript");
             Boolean selectedByJS = (Boolean) js.executeScript(
                 "var dayElements = document.querySelectorAll('.datepicker-days td.day, .datepicker td.day, td.day');" +
@@ -210,10 +196,9 @@ public class EnhancedCalendarTest extends BaseTest {
                 return true;
             }
             
-            // Strategy 2: Try to use absolute XPath to find the day
             try {
                 logInfo("Attempting to find day by XPath");
-                WebElement dayElement = driver.findElement(By.xpath("//td[contains(@class, 'day') and text()='" + day + "']"));
+                WebElement dayElement = driver.findElement(By.xpath("
                 dayElement.click();
                 logInfo("Selected day " + day + " using XPath");
                 sleep(1500);
@@ -222,7 +207,6 @@ public class EnhancedCalendarTest extends BaseTest {
                 logInfo("Could not find day by XPath: " + e.getMessage());
             }
             
-            // Strategy 3: Find all td elements that might be day cells
             try {
                 logInfo("Attempting to find day by searching all td elements");
                 List<WebElement> allTds = driver.findElements(By.tagName("td"));
@@ -238,7 +222,6 @@ public class EnhancedCalendarTest extends BaseTest {
                 logInfo("Error searching all td elements: " + e.getMessage());
             }
             
-            // Strategy 4: Try creating and injecting a custom date as a fallback
             try {
                 logInfo("Attempting to set date value directly using JavaScript");
                 Boolean setDateValue = (Boolean) js.executeScript(
@@ -246,7 +229,7 @@ public class EnhancedCalendarTest extends BaseTest {
                     "for(var i=0; i<inputs.length; i++) {" +
                     "  if(inputs[i].placeholder && inputs[i].placeholder.indexOf('/') > -1 || " +
                     "     inputs[i].className.indexOf('datepicker') > -1 || " +
-                    "     i === 2) {" +  // Third input (0-indexed) based on form structure
+                    "     i === 2) {" +
                     "    var today = new Date();" +
                     "    var date = new Date(today.getFullYear(), today.getMonth(), " + day + ");" +
                     "    var day = date.getDate().toString().padStart(2, '0');" +

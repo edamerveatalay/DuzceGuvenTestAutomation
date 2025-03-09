@@ -30,20 +30,18 @@ public class AllureDuzceGuvenTest extends BaseTest {
         navigateToWebsite();
         selectDepartureLocation("Ankara");
         selectArrivalLocation("Düzce");
-        selectDate(19); // Selecting day 19 from the date picker
+        selectDate(19);
         clickSearchButton();
     }
     
     @Step("Navigate to Düzce Güven website")
     private void navigateToWebsite() {
-        // Navigate to the website
-        driver.get("https://www.duzceguven.com.tr");
+        driver.get("https:
         
-        // Handle cookie consent if present
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Kabul Et')]")));
+                    By.xpath("
             cookieButton.click();
             System.out.println("Closed cookie consent popup");
         } catch (Exception e) {
@@ -67,15 +65,15 @@ public class AllureDuzceGuvenTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement departureField = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//input[@placeholder='Kalkış Noktası: Seçiniz']")));
+                    By.xpath("
             departureField.click();
             departureField.clear();
             departureField.sendKeys(location);
             
-            Thread.sleep(1000); // Wait for dropdown to appear
+            Thread.sleep(1000);
             
             WebElement departureOption = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//li[contains(text(), '" + location + "')]")));
+                    By.xpath("
             departureOption.click();
             System.out.println("Selected departure location: " + location);
         } catch (Exception e) {
@@ -88,15 +86,15 @@ public class AllureDuzceGuvenTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement arrivalField = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//input[@placeholder='Varış Noktası: Seçiniz']")));
+                    By.xpath("
             arrivalField.click();
             arrivalField.clear();
             arrivalField.sendKeys(location);
             
-            Thread.sleep(1000); // Wait for dropdown to appear
+            Thread.sleep(1000);
             
             WebElement arrivalOption = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//li[contains(text(), '" + location + "')]")));
+                    By.xpath("
             arrivalOption.click();
             System.out.println("Selected arrival location: " + location);
         } catch (Exception e) {
@@ -109,16 +107,14 @@ public class AllureDuzceGuvenTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement dateField = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//input[contains(@placeholder, '/')]")));
+                    By.xpath("
             dateField.click();
             
-            // Wait for calendar to appear
             wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(@class, 'datepicker')]")));
+                    By.xpath("
             
-            // Select a date (e.g., 20th of current month)
             WebElement dateElement = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//td[not(contains(@class, 'old')) and not(contains(@class, 'new')) and text()='" + day + "']")));
+                    By.xpath("
             dateElement.click();
             System.out.println("Selected date: " + day);
         } catch (Exception e) {
@@ -131,17 +127,15 @@ public class AllureDuzceGuvenTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Sorgula')]")));
+                    By.xpath("
             searchButton.click();
             System.out.println("Clicked search button");
             
-            // Wait for results to load
             Thread.sleep(5000);
         } catch (Exception e) {
             System.out.println("Could not click search button: " + e.getMessage());
         }
         
-        // Print success message
         System.out.println("Test completed successfully");
     }
 }

@@ -30,22 +30,16 @@ public class ImprovedJourneySearchTest extends BaseTest {
     @Description("Test performs a complete journey search with departure location, arrival location and date")
     @Severity(SeverityLevel.CRITICAL)
     public void testCompleteJourneySearch() {
-        // Navigate to the website
         navigateToWebsite();
         
-        // Select departure location using JavaScript
         selectDepartureLocationJS("Ankara");
         
-        // Select arrival location using JavaScript
         selectArrivalLocationJS("Düzce");
         
-        // Select date using our DatePickerUtil
         DatePickerUtil.selectDate(driver, 19);
         
-        // Click search button
         clickSearchButtonJS();
         
-        // Wait for results
         sleep(5000);
         
         logInfo("Journey search test completed successfully");
@@ -53,22 +47,19 @@ public class ImprovedJourneySearchTest extends BaseTest {
     
     @Step("Navigate to Düzce Güven website")
     private void navigateToWebsite() {
-        // Navigate to the website
-        driver.get("https://www.duzceguven.com.tr");
+        driver.get("https:
         logInfo("Navigated to Düzce Güven website");
         
-        // Handle cookie consent if present
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Kabul Et')]")));
+                    By.xpath("
             cookieButton.click();
             logInfo("Closed cookie consent popup");
         } catch (Exception e) {
             logInfo("Cookie popup not found or could not be closed: " + e.getMessage());
         }
         
-        // Wait for page to load completely
         sleep(3000);
     }
     
@@ -77,7 +68,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Attempt to find departure input by placeholder text
             String script = 
                 "var inputs = document.querySelectorAll('input');" +
                 "for (var i = 0; i < inputs.length; i++) {" +
@@ -96,10 +86,8 @@ public class ImprovedJourneySearchTest extends BaseTest {
             if (departureInput != null) {
                 logInfo("Found and set departure location input with JavaScript: " + location);
                 
-                // Wait for dropdown to appear
                 sleep(2000);
                 
-                // Try to select from dropdown using JavaScript
                 String selectScript = 
                     "var options = document.querySelectorAll('li');" +
                     "for (var i = 0; i < options.length; i++) {" +
@@ -118,7 +106,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
                     logInfo("Could not find location in dropdown, using direct value");
                 }
             } else {
-                // Fallback: try to set the first input field
                 String fallbackScript = 
                     "var inputs = document.querySelectorAll('input');" +
                     "if (inputs.length > 0) {" +
@@ -139,7 +126,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
                 }
             }
             
-            // Give time for the selection to take effect
             sleep(1000);
             
         } catch (Exception e) {
@@ -152,7 +138,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Attempt to find arrival input by placeholder text
             String script = 
                 "var inputs = document.querySelectorAll('input');" +
                 "for (var i = 0; i < inputs.length; i++) {" +
@@ -171,10 +156,8 @@ public class ImprovedJourneySearchTest extends BaseTest {
             if (arrivalInput != null) {
                 logInfo("Found and set arrival location input with JavaScript: " + location);
                 
-                // Wait for dropdown to appear
                 sleep(2000);
                 
-                // Try to select from dropdown using JavaScript
                 String selectScript = 
                     "var options = document.querySelectorAll('li');" +
                     "for (var i = 0; i < options.length; i++) {" +
@@ -193,7 +176,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
                     logInfo("Could not find location in dropdown, using direct value");
                 }
             } else {
-                // Fallback: try to set the second input field
                 String fallbackScript = 
                     "var inputs = document.querySelectorAll('input');" +
                     "if (inputs.length > 1) {" +
@@ -214,7 +196,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
                 }
             }
             
-            // Give time for the selection to take effect
             sleep(1000);
             
         } catch (Exception e) {
@@ -227,7 +208,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             
-            // Try to find the search button by text content
             String script = 
                 "var buttons = document.querySelectorAll('button');" +
                 "for (var i = 0; i < buttons.length; i++) {" +
@@ -243,7 +223,6 @@ public class ImprovedJourneySearchTest extends BaseTest {
             if (clicked) {
                 logInfo("Clicked search button using JavaScript");
             } else {
-                // Fallback: try to click any button that looks like a submit button
                 String fallbackScript = 
                     "var buttons = document.querySelectorAll('button[type=\"submit\"], input[type=\"submit\"], button.btn-primary, button.search-button');" +
                     "if (buttons.length > 0) {" +

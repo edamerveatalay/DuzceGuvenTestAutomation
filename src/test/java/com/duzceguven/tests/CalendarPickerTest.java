@@ -29,16 +29,12 @@ public class CalendarPickerTest extends BaseTest {
     @Description("Test verifies that a user can click on the date field and select a specific date from the calendar picker")
     @Severity(SeverityLevel.CRITICAL)
     public void testDateSelection() {
-        // Navigate to the website
-        driver.get("https://www.duzceguven.com.tr");
+        driver.get("https:
         
-        // Handle cookie consent
         handleCookieConsent();
         
-        // Wait for page to load fully
         sleep(3000);
         
-        // Open date picker and select a date
         openDatePickerAndSelectDate(19);
     }
     
@@ -46,7 +42,7 @@ public class CalendarPickerTest extends BaseTest {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Kabul Et')]")));
+                    By.xpath("
             cookieButton.click();
             System.out.println("Closed cookie consent popup");
         } catch (Exception e) {
@@ -57,13 +53,10 @@ public class CalendarPickerTest extends BaseTest {
     @Step("Open date picker and select date: {day}")
     private void openDatePickerAndSelectDate(int day) {
         try {
-            // Wait for the page to be properly loaded
             sleep(3000);
             
-            // Find the date field using various strategies
             WebElement dateField = null;
             
-            // Strategy 1: By input field with calendar icon inside parent
             try {
                 dateField = driver.findElement(By.cssSelector("input.form-control.datepicker"));
                 System.out.println("Found date field using class selector");
@@ -71,23 +64,20 @@ public class CalendarPickerTest extends BaseTest {
                 System.out.println("Could not find date field using class selector: " + e.getMessage());
             }
             
-            // Strategy 2: Try using XPath with label text
             if (dateField == null) {
                 try {
-                    dateField = driver.findElement(By.xpath("//label[contains(text(), 'Tarih')]/following-sibling::input"));
+                    dateField = driver.findElement(By.xpath("
                     System.out.println("Found date field using label selector");
                 } catch (Exception e) {
                     System.out.println("Could not find date field using label selector: " + e.getMessage());
                 }
             }
             
-            // Strategy 3: Try finding the date field by its position in the form
             if (dateField == null) {
                 try {
-                    // Based on your screenshot, the date field is the third input in the form
                     List<WebElement> inputFields = driver.findElements(By.tagName("input"));
                     if (inputFields.size() >= 3) {
-                        dateField = inputFields.get(2); // Third input field (0-indexed)
+                        dateField = inputFields.get(2);
                         System.out.println("Found date field by position in form");
                     }
                 } catch (Exception e) {
@@ -95,27 +85,22 @@ public class CalendarPickerTest extends BaseTest {
                 }
             }
             
-            // If we found the date field, click it to open the calendar
             if (dateField != null) {
                 System.out.println("Clicking date field to open calendar");
                 
-                // Try regular click first
                 try {
                     dateField.click();
                     System.out.println("Clicked date field with regular click");
                 } catch (Exception e) {
                     System.out.println("Regular click failed, trying JavaScript click: " + e.getMessage());
                     
-                    // Try JavaScript click as fallback
                     JavascriptExecutor js = (JavascriptExecutor) driver;
                     js.executeScript("arguments[0].click();", dateField);
                     System.out.println("Clicked date field with JavaScript");
                 }
                 
-                // Wait for calendar to appear
                 sleep(1500);
                 
-                // Now that the calendar is open, select the day
                 selectDayFromCalendar(day);
             } else {
                 System.out.println("Could not find date field using any strategy");
@@ -130,11 +115,9 @@ public class CalendarPickerTest extends BaseTest {
         try {
             System.out.println("Attempting to select day " + day + " from calendar");
             
-            // Find day cells with class="day" as seen in the screenshot
             List<WebElement> dayCells = driver.findElements(By.cssSelector("td.day"));
             System.out.println("Found " + dayCells.size() + " day cells");
             
-            // Look for the specific day we want
             WebElement targetDay = null;
             for (WebElement dayCell : dayCells) {
                 if (dayCell.getText().trim().equals(String.valueOf(day))) {
@@ -144,16 +127,13 @@ public class CalendarPickerTest extends BaseTest {
                 }
             }
             
-            // If we found the day, click it
             if (targetDay != null) {
-                // Try regular click first
                 try {
                     targetDay.click();
                     System.out.println("Clicked day " + day + " with regular click");
                 } catch (Exception e) {
                     System.out.println("Regular click failed, trying JavaScript click: " + e.getMessage());
                     
-                    // Try JavaScript click as fallback
                     JavascriptExecutor js = (JavascriptExecutor) driver;
                     js.executeScript("arguments[0].click();", targetDay);
                     System.out.println("Clicked day " + day + " with JavaScript");
@@ -161,7 +141,6 @@ public class CalendarPickerTest extends BaseTest {
             } else {
                 System.out.println("Could not find day cell for day " + day);
                 
-                // Try direct JavaScript selection as last resort
                 JavascriptExecutor js = (JavascriptExecutor) driver;
                 String jsScript = 
                     "var days = document.querySelectorAll('td.day');" +
@@ -177,7 +156,6 @@ public class CalendarPickerTest extends BaseTest {
                 System.out.println("JavaScript day selection result: " + result);
             }
             
-            // Wait a moment to see the result
             sleep(2000);
             
         } catch (Exception e) {

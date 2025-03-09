@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
  */
 public class LoginTest extends BaseTest {
     
-    private static final String BASE_URL = "https://example.com"; // Replace with your actual website URL
+    private static final String BASE_URL = "https:
     
     @Test
     public void testSuccessfulLogin() {
@@ -18,9 +18,6 @@ public class LoginTest extends BaseTest {
         loginPage.goToLoginPage(BASE_URL)
                 .login("validUsername", "validPassword");
         
-        // Add assertions for successful login
-        // For example, check if user is redirected to dashboard
-        // Assert.assertTrue(new DashboardPage(driver).isDashboardDisplayed());
     }
     
     @Test
@@ -30,7 +27,6 @@ public class LoginTest extends BaseTest {
         loginPage.goToLoginPage(BASE_URL)
                 .login("invalidUsername", "invalidPassword");
         
-        // Assert that error message is displayed
         Assert.assertTrue(loginPage.isErrorMessageDisplayed());
         Assert.assertEquals(loginPage.getErrorMessage(), "Invalid username or password");
     }
@@ -42,7 +38,6 @@ public class LoginTest extends BaseTest {
         loginPage.goToLoginPage(BASE_URL)
                 .login("", "");
         
-        // Assert that error message is displayed
         Assert.assertTrue(loginPage.isErrorMessageDisplayed());
     }
 }

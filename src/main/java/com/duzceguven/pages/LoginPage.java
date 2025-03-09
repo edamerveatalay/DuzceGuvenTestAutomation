@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
  */
 public class LoginPage extends BasePage {
     
-    // Locators
     private final By usernameField = By.id("username");
     private final By passwordField = By.id("password");
     private final By loginButton = By.id("loginButton");

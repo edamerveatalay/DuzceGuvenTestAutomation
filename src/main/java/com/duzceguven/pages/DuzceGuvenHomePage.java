@@ -11,14 +11,12 @@ import java.time.Duration;
  */
 public class DuzceGuvenHomePage extends BasePage {
     
-    // Locators based on the screenshot
-    private final By departureDropdown = By.xpath("//input[@placeholder='Kalkış Noktası: Seçiniz']");
-    private final By arrivalDropdown = By.xpath("//input[@placeholder='Varış Noktası: Seçiniz']");
-    private final By dateField = By.xpath("//input[@placeholder='09/03/2025']");
-    private final By searchButton = By.xpath("//button[contains(text(), 'Sorgula')]");
+    private final By departureDropdown = By.xpath("
+    private final By arrivalDropdown = By.xpath("
+    private final By dateField = By.xpath("
+    private final By searchButton = By.xpath("
     
-    // Popup locators
-    private final By cookieAcceptButton = By.xpath("//button[contains(text(), 'Kabul Et')]");
+    private final By cookieAcceptButton = By.xpath("
     
     public DuzceGuvenHomePage(WebDriver driver) {
         super(driver);
@@ -30,7 +28,7 @@ public class DuzceGuvenHomePage extends BasePage {
      * @return DuzceGuvenHomePage instance
      */
     public DuzceGuvenHomePage goToHomePage() {
-        navigateTo("https://www.duzceguven.com.tr");
+        navigateTo("https:
         handlePopups();
         return this;
     }
@@ -41,14 +39,12 @@ public class DuzceGuvenHomePage extends BasePage {
      * @return DuzceGuvenHomePage instance
      */
     public DuzceGuvenHomePage handlePopups() {
-        // Wait a moment for popups to appear
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         
-        // Handle cookie consent popup if present
         try {
             if (driver.findElements(cookieAcceptButton).size() > 0) {
                 clickElement(cookieAcceptButton);
@@ -67,22 +63,18 @@ public class DuzceGuvenHomePage extends BasePage {
      * @return DuzceGuvenHomePage instance
      */
     public DuzceGuvenHomePage selectDepartureLocation(String location) {
-        // Wait for the element to be clickable
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(departureDropdown));
         
-        // Click on the departure dropdown to open the list
         clickElement(departureDropdown);
         
-        // Type the location name
         driver.findElement(departureDropdown).clear();
         driver.findElement(departureDropdown).sendKeys(location);
         
-        // Wait for dropdown options and select the first matching option
         try {
-            Thread.sleep(1000); // Give time for dropdown to populate
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(text(), '" + location + "')]"))); 
-            clickElement(By.xpath("//li[contains(text(), '" + location + "')]"));
+            Thread.sleep(1000);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("
+            clickElement(By.xpath("
         } catch (Exception e) {
             System.out.println("Could not select departure location: " + e.getMessage());
         }
@@ -97,15 +89,12 @@ public class DuzceGuvenHomePage extends BasePage {
      * @return DuzceGuvenHomePage instance
      */
     public DuzceGuvenHomePage selectArrivalLocation(String location) {
-        // Click on the arrival dropdown to open the list
         clickElement(arrivalDropdown);
         
-        // Wait for the dropdown list to be visible
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[text()='" + location + "']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("
         
-        // Click on the location in the list
-        clickElement(By.xpath("//li[text()='" + location + "']"));
+        clickElement(By.xpath("
         
         return this;
     }
@@ -119,49 +108,37 @@ public class DuzceGuvenHomePage extends BasePage {
      * @return DuzceGuvenHomePage instance
      */
     public DuzceGuvenHomePage selectDate(int day, int month, int year) {
-        // Click on the date field to open the calendar picker
         clickElement(dateField);
         
-        // Wait for the calendar to appear
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'datepicker')]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("
         
-        // Get the current month and year displayed in the calendar
-        String currentMonthYear = driver.findElement(By.xpath("//th[@class='datepicker-switch']")).getText();
+        String currentMonthYear = driver.findElement(By.xpath("
         
-        // Navigate to the correct month and year
-        // First, navigate to the correct year if needed
         while (!currentMonthYear.contains(String.valueOf(year))) {
-            // If target year is after current year, click next; otherwise click prev
             if (year > Integer.parseInt(currentMonthYear.split(" ")[1])) {
-                clickElement(By.xpath("//th[@class='next']"));
+                clickElement(By.xpath("
             } else {
-                clickElement(By.xpath("//th[@class='prev']"));
+                clickElement(By.xpath("
             }
-            currentMonthYear = driver.findElement(By.xpath("//th[@class='datepicker-switch']")).getText();
+            currentMonthYear = driver.findElement(By.xpath("
         }
         
-        // Then navigate to the correct month
         String targetMonth = getMonthName(month);
         while (!currentMonthYear.contains(targetMonth)) {
-            // If we're in the correct year but wrong month
             if (currentMonthYear.contains(String.valueOf(year))) {
-                // If target month is after current month, click next; otherwise click prev
                 if (month > getMonthNumber(currentMonthYear.split(" ")[0])) {
-                    clickElement(By.xpath("//th[@class='next']"));
+                    clickElement(By.xpath("
                 } else {
-                    clickElement(By.xpath("//th[@class='prev']"));
+                    clickElement(By.xpath("
                 }
-                currentMonthYear = driver.findElement(By.xpath("//th[@class='datepicker-switch']")).getText();
+                currentMonthYear = driver.findElement(By.xpath("
             }
         }
         
-        // Now select the day
-        // Find the day that's not in the previous or next month (not having class 'old' or 'new')
-        clickElement(By.xpath(String.format("//td[not(contains(@class, 'old')) and not(contains(@class, 'new')) and text()='%d']", day)));
+        clickElement(By.xpath(String.format("
         
-        // Wait for the calendar to close
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'datepicker')]"))); 
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("
         
         return this;
     }
@@ -172,16 +149,13 @@ public class DuzceGuvenHomePage extends BasePage {
      * @return DuzceGuvenHomePage instance
      */
     public DuzceGuvenHomePage clickSearchButton() {
-        // Wait for the button to be clickable
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(searchButton));
         
-        // Click the search button
         clickElement(searchButton);
         
-        // Wait for the search results to load (adjust the locator based on actual results page)
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'sefer-list') or contains(@class, 'results')]")));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("
         } catch (Exception e) {
             System.out.println("Search results element not found with expected class. Continuing anyway.");
         }
